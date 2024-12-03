@@ -4,7 +4,7 @@
  */
 const express = require('express');
 const database = require('../database/connection'); // conexion a la base de datos
-const verifyToken = require ('../middlewares/authMiddlewares');
+const authMiddleware = require ('../middlewares/authMiddlewares');
 const router = express.Router(); // instancia de un router para organizar las rutas
 
 /**
@@ -31,7 +31,7 @@ router.get('/', (req, res) => {
  * Requiere autenticacion mediante JWT
  * Crea un nuevo usuario en la base de datos
  */
-router.post('/',verifyToken, (req, res) => {
+router.post('/',authMiddleware, (req, res) => {
     const {name, email, username, password, role_id} = req.body;
 
     if(!name || !email || !username || !password || !role_id){
@@ -53,7 +53,7 @@ router.post('/',verifyToken, (req, res) => {
  * Requiere autenticacion mediante jwt
  * Actualiza la informacion de un usuario existente en la base de datos
  */
-router.put('/:id', verifyToken,(req, res) =>{
+router.put('/:id', authMiddleware,(req, res) =>{
     const id = req.params.id;
     const {name, email, username, password, role_id} = req.body;
 
@@ -82,7 +82,7 @@ router.put('/:id', verifyToken,(req, res) =>{
  * Requiere autenticacion mediante JWT.
  * Cambia el estado del usuario a 'inactive'.
  */
-router.put('/:id/deactivate', verifyToken,(req, res) => {
+router.put('/:id/deactivate', authMiddleware,(req, res) => {
     const id = req.params.id;
     const query = `UPDATE users SET status = 'inactive' WHERE id = ?`;
 
@@ -103,7 +103,7 @@ router.put('/:id/deactivate', verifyToken,(req, res) => {
  * Requiere autenticacion mediante JWT.
  * Cambia el estado del usuario a 'active'.
  */
-router.put('/:id/activate', verifyToken,(req, res) => {
+router.put('/:id/activate', authMiddleware,(req, res) => {
     const id = req.params.id;
     const query = `UPDATE users SET status = 'active' WHERE id = ?`;
 

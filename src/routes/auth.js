@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 const database = require("../database/connection");
 const router = express.Router();
 // Clave secreta para firmar los tokens JWT
-const SECRET_KEY = "my_secret_key";
+const SECRET_KEY = process.env.JWT_SECRETE_KEY || "my_secret_key";
 
 /**
  * LogIn

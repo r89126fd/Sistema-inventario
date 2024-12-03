@@ -12,7 +12,7 @@ const SECRET_KEY = "my_secret_key";
  * @param {*object} res - objeto de respuesta Express
  * @param {*function} next - funcion para continuar al siguiente middleware
  */
-function verifyToken(req, res, next){
+function authMiddleware(req, res, next){
     const authHeader = req.headers['authorization']; // Extraer el encabezado de autorizacion
 
     if(!authHeader){
@@ -30,4 +30,4 @@ function verifyToken(req, res, next){
     });
 }
 
-module.exports = verifyToken;
+module.exports = authMiddleware;
