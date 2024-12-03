@@ -82,7 +82,7 @@ router.put('/:id', authMiddleware,(req, res) =>{
  * Requiere autenticacion mediante JWT.
  * Cambia el estado del usuario a 'inactive'.
  */
-router.put('/:id/deactivate', authMiddleware,(req, res) => {
+router.delete('/:id', authMiddleware,(req, res) => {
     const id = req.params.id;
     const query = `UPDATE users SET status = 'inactive' WHERE id = ?`;
 
@@ -94,27 +94,6 @@ router.put('/:id/deactivate', authMiddleware,(req, res) => {
             return res.status(404).json({ error: 'Usuario no encontrado.'})
         }
         res.status(200).json({message: 'Usuario desactivado exitosamente.'})
-    });
-});
-/**
- * activar usuario 
- * Metodo: PUT
- * Ruta: /api/users/:id/activate
- * Requiere autenticacion mediante JWT.
- * Cambia el estado del usuario a 'active'.
- */
-router.put('/:id/activate', authMiddleware,(req, res) => {
-    const id = req.params.id;
-    const query = `UPDATE users SET status = 'active' WHERE id = ?`;
-
-    database.query(query, [id], (err, results) => {
-        if(err){
-            return res.status(500).json({err: 'Error al activar usuario.', details: err.message});
-        }
-        if(results.affectedRows === 0){
-            return res.status(404).json({ error: 'Usuario no encontrado.'})
-        }
-        res.status(200).json({message: 'Usuario activado exitosamente.'})
     });
 });
 

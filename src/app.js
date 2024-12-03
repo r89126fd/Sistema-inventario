@@ -7,6 +7,7 @@ const cors = require('cors');
 const database = require('./database/connection'); 
 const usersRoutes = require('./routes/users'); 
 const authRoutes = require('./routes/auth'); 
+const productsRoutes = require('./routes/productsRoutes');
 
 const app = express(); 
 
@@ -16,6 +17,7 @@ app.use(express.json());
 // Configuracion de rutas
 app.use('/api/users', usersRoutes); // Rutas para la gestion de usuarios
 app.use('/api/auth', authRoutes); // Rutas para la autenticacion
+app.use('/api/products', productsRoutes); // Rutas para la gestionde productos
 
 app.get('/', (req, res) => { // Ruta de prueba
     res.send('servidor corriendo!');
