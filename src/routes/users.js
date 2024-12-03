@@ -13,7 +13,7 @@ const router = express.Router(); // instancia de un router para organizar las ru
  * Rotorna lista de usuarios con su informacion y rol asociado
  */
 router.get('/', (req, res) => {
-    const query = `SELECT users.id, users.full_name, users.email, roles.name AS role, users.status
+    const query = `SELECT users.id, users.name, users.email, users.username,roles.name AS role, users.status
                    FROM users
                    JOIN roles ON users.role_id = roles.id
                    `;
@@ -32,14 +32,14 @@ router.get('/', (req, res) => {
  * Crea un nuevo usuario en la base de datos
  */
 router.post('/',verifyToken, (req, res) => {
-    const {full_name, email, password, role_id} = req.body;
+    const {name, email, username, password, role_id} = req.body;
 
-    if(!full_name || !email || !password || !role_id){
+    if(!name || !email || !username || !password || !role_id){
         return res.status(400).json({error: 'Todos los campos son obligatorios'});
     }
 
-    const query = `INSERT INTO users (full_name, email, password, role_id) VALUES (?, ?, ?, ?)`
-    database.query(query, [full_name, email, password, role_id], (err, results) =>{
+    const query = `INSERT INTO users (name, email, username, password, role_id) VALUES (?, ?, ?, ?, ?)`
+    database.query(query, [name, email, username, password, role_id], (err, results) =>{
         if(err){
             return res.status(500).json({err: 'Error al crear usuario', details: err.message});
         }
@@ -55,13 +55,13 @@ router.post('/',verifyToken, (req, res) => {
  */
 router.put('/:id', verifyToken,(req, res) =>{
     const id = req.params.id;
-    const {full_name, email, password, role_id} = req.body;
+    const {name, email, username, password, role_id} = req.body;
 
-    if(!full_name || !email || !password || !role_id){
+    if(!name || !email || !username || !password || !role_id){
         return res.status(400).json({error: 'Todos los campos son obligarios'});
     }
-    const query = `UPDATE users SET full_name = ?, email = ?, password = ?, role_id = ? WHERE id = ?`;
-    database.query(query, [full_name, email, password, role_id, id], (err, results) =>{
+    const query = `UPDATE users SET name = ?, email = ?, username = ? ,password = ?, role_id = ? WHERE id = ?`;
+    database.query(query, [name, email, username, password, role_id, id], (err, results) =>{
 
         if(err){
             return res.status(500).json({err:'Error al actulizar usuario', details: err.message});

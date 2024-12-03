@@ -16,16 +16,16 @@ const SECRET_KEY = "my_secret_key";
  * Verifica las credenciales proporcionadas
  */
 router.post("/login", (req, res) => {
-  const { email, password } = req.body;
+  const { username, password } = req.body;
 
-  if (!email || !password) {
+  if (!username || !password) {
     return res
       .status(400)
-      .json({ error: "Email y  password son obligatorios" });
+      .json({ error: "Username y  password son obligatorios" });
   }
 
-  const query = `SELECT id, full_name, role_id FROM users WHERE email = ? AND password = ? AND status = 'active'`;
-  database.query(query, [email, password], (err, results) => {
+  const query = `SELECT id, username, role_id FROM users WHERE username = ? AND password = ? AND status = 'active'`;
+  database.query(query, [username, password], (err, results) => {
     if (err) {
       return res
         .status(500)
@@ -39,7 +39,7 @@ router.post("/login", (req, res) => {
     // Usuario encontrado: generar un Token JWT
     const user = results[0];
     const token = jwt.sign(
-      { userId: user.userId, roleId: user.roleId, fullName: user.fullName },
+      { userId: user.userId, roleId: user.roleId, userName: user.userName },
       SECRET_KEY,
       { expiresIn: "1h" }
     );
