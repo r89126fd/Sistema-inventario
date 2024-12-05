@@ -8,7 +8,7 @@ const database = require('./database/connection');
 const usersRoutes = require('./routes/users'); 
 const authRoutes = require('./routes/auth'); 
 const productsRoutes = require('./routes/productsRoutes');
-
+//npm install bcrypt@latest libreria para encriptar contrasenas;
 const app = express(); 
 
 app.use(cors());

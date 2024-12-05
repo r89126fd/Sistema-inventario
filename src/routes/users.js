@@ -12,7 +12,7 @@ const router = express.Router(); // instancia de un router para organizar las ru
  * Ruta: /api/users
  * Rotorna lista de usuarios con su informacion y rol asociado
  */
-router.get('/', (req, res) => {
+router.get('/', authMiddleware, (req, res) => {
     const query = `SELECT users.id, users.name, users.email, users.username,roles.name AS role, users.status
                    FROM users
                    JOIN roles ON users.role_id = roles.id
